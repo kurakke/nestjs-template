@@ -12,4 +12,8 @@ COPY . .
 
 EXPOSE 8000
 
+RUN npx prisma migrate dev --name init
+
+RUN npx prisma generate
+
 CMD ["npm", "run", "start:dev"]
