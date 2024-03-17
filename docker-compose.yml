@@ -10,3 +10,21 @@ services:
       - /app/node_modules
     ports:
       - '8000:8000'
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db
+    ports:
+      - '5444:5432'
+  studio:
+    image: node:20.11.1
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: npx prisma studio --port 5555
+    ports:
+      - '5555:5555'
+    depends_on:
+      - db
