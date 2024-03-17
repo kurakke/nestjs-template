@@ -1,0 +1,35 @@
+name: Fly Deploy
+on:
+  workflow_run:
+    workflows: [Prisma Migrate]
+    types:
+      - completed
+  pull_request:
+    branches:
+      - main
+    types: [closed]
+jobs:
+  deploy:
+    name: Deploy App
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      # FlyCLIをインストール
+      - name: Install flyctl
+        run: curl -L https://fly.io/install.sh | sh
+      # 環境変数が必要な場合ここで設定する
+      # 環境変数を設定
+      - name: Set Environment Variables and Update Flyctl Secrets
+        run: |
+          ~/.fly/bin/flyctl secrets set \
+            DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+            NODE_ENV="production"
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      # FlyCLIでデプロイ
+      - name: deploy
+        run: ~/.fly/bin/fly deploy -c fly.toml --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
