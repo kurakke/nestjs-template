@@ -23,13 +23,8 @@ jobs:
       # 環境変数を設定
       - name: Set Environment Variables and Update Flyctl Secrets
         run: |
-          FIREBASE_KEY=$(echo "${{ secrets.FIREBASE_KEY }}" | base64 -d )
           ~/.fly/bin/flyctl secrets set \
-            FRONTEND_URL="${{ secrets.FRONTEND_URL }}" \
             DATABASE_URL="${{ secrets.DATABASE_URL }}" \
-            FIREBASE_API_KEY="${{ secrets.FIREBASE_API_KEY }}" \
-            FIREBASE_PROJECT_ID="${{ secrets.FIREBASE_PROJECT_ID }}" \
-            FIREBASE_CLIENT_EMAIL="${{ secrets.FIREBASE_CLIENT_EMAIL }}" \
             FIREBASE_KEY="$FIREBASE_KEY" \
             NODE_ENV="production"
         env:
