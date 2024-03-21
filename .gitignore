@@ -5,6 +5,8 @@
 # environment file
 .env
 
+fabbrica/
+
 # Logs
 logs
 *.log
