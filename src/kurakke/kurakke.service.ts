@@ -2,30 +2,45 @@ import { Injectable } from '@nestjs/common';
 import { CreateKurakkeDto } from './dto/create-kurakke.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { ConfigService } from '@nestjs/config';
-
+import { UpdateKurakkeDto } from './dto/update-kurakke.dto';
+import { Kurakke } from '@prisma/client';
 @Injectable()
 export class KurakkeService {
   constructor(
     private prismaService: PrismaService,
     private configService: ConfigService,
   ) {}
-  create(createKurakkeDto: CreateKurakkeDto) {
-    return this.prismaService.kurakke.create({ data: { ...createKurakkeDto } });
+  async create(createKurakkeDto: CreateKurakkeDto): Promise<Kurakke> {
+    return await this.prismaService.kurakke.create({
+      data: { ...createKurakkeDto },
+    });
   }
 
-  findAll() {
-    return this.prismaService.kurakke.findMany();
+  async findAll(): Promise<Kurakke[]> {
+    return await this.prismaService.kurakke.findMany();
   }
 
-  findOne(id: string) {
-    return this.prismaService.kurakke.findFirst({
+  async findOne(id: string): Promise<Kurakke> {
+    return await this.prismaService.kurakke.findUnique({
       where: {
-        id: id,
+        id,
       },
     });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} kurakke`;
+  async update(
+    id: string,
+    updateKurakkeDto: UpdateKurakkeDto,
+  ): Promise<Kurakke> {
+    return await this.prismaService.kurakke.update({
+      where: { id },
+      data: { ...updateKurakkeDto },
+    });
+  }
+
+  async remove(id: string): Promise<Kurakke> {
+    return await this.prismaService.kurakke.delete({
+      where: { id },
+    });
   }
 }
