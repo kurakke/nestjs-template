@@ -1,9 +1,23 @@
+
 {
-  "moduleFileExtensions": ["js", "json", "ts"],
-  "rootDir": ".",
-  "testEnvironment": "node",
-  "testRegex": ".e2e-spec.ts$",
+  "moduleFileExtensions": [
+    "js",
+    "json",
+    "ts"
+  ],
+  "rootDir": "../",
+  "testRegex": "/*e2e-spec.ts$",
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
-  }
+  },
+  "testEnvironment": "@quramy/jest-prisma/environment",
+  "testEnvironmentOptions": {
+    "enableExperimentalRollbackInTransaction": true
+  },
+  "moduleNameMapper": {
+    "^src/(.*)$": "<rootDir>/$1"
+  },
+  "transformIgnorePatterns": [
+    "node_modules/(?!(uuid)/)"
+  ]
 }

@@ -21,10 +21,14 @@
     "seed": "ts-node --transpile-only prisma/seed.ts"
   },
   "dependencies": {
+    "@jest/types": "^29.6.3",
     "@nestjs/common": "^10.0.0",
+    "@nestjs/config": "^3.2.1",
     "@nestjs/core": "^10.0.0",
+    "@nestjs/mapped-types": "^2.0.5",
     "@nestjs/platform-express": "^10.0.0",
     "@prisma/client": "^5.11.0",
+    "@quramy/jest-prisma": "^1.8.0",
     "@quramy/prisma-fabbrica": "^2.1.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1"
@@ -68,6 +72,15 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "@quramy/jest-prisma/environment",
+    "testEnvironmentOptions": {
+      "enableExperimentalRollbackInTransaction": true
+    },
+    "moduleNameMapper": {
+      "^src/(.*)$": "<rootDir>/$1"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(uuid)/)"
+    ]
   }
 }

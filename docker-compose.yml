@@ -18,12 +18,22 @@ services:
       POSTGRES_DB: db
     ports:
       - '5444:5432'
+  db-test:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db-test
+    ports:
+      - '5678:5432'
   studio:
     image: node:20.11.1
     working_dir: /app
     volumes:
       - .:/app
     command: npx prisma studio --port 5555
+    env_file:
+      - .env
     ports:
       - '5555:5555'
     depends_on:
