@@ -12,7 +12,12 @@ import { ConfigModule } from '@nestjs/config';
     PrismaModule,
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
+      ignoreEnvFile:
+        process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'ci',
+      envFilePath:
+        process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'ci'
+          ? undefined
+          : '.env',
     }),
   ],
   controllers: [AppController],
