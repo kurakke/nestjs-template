@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Delete,
+  NotFoundException,
 } from '@nestjs/common';
 import { KurakkeService } from './kurakke.service';
 import { CreateKurakkeDto } from './dto/create-kurakke.dto';
@@ -31,8 +32,12 @@ export class KurakkeController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.kurakkeService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    const result = await this.kurakkeService.findOne(id);
+    if (!result) {
+      throw new NotFoundException();
+    }
+    return result;
   }
 
   @Delete(':id')
