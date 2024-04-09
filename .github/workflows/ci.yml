@@ -31,8 +31,29 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18.17.1
+          node-version: 20.11.1
+      - name: Start Test Database
+        run: docker compose up -d db-test
+      - name: Start App
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: docker compose up -d app
+      - name: migrate Database
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: docker exec -e DATABASE_URL="${{ secrets.DATABASE_URL }}" nestjs-template-app-1 npx prisma migrate dev
+      - name: prisma generate
+        run: docker exec -e DATABASE_URL="${{ secrets.DATABASE_URL }}" nestjs-template-app-1 npx prisma generate
       - name: Install Dependencies
-        run: npm install
-      - name: Run Tests
-        run: npm run test
+        run: docker exec -e DATABASE_URL="${{ secrets.DATABASE_URL }}" nestjs-template-app-1 npm install
+
+      - name: Run Unit Test
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: docker exec -e DATABASE_URL="${{ secrets.DATABASE_URL }}" nestjs-template-app-1 npm run test
+      - name: Run e2e Test
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: docker exec -e DATABASE_URL="${{ secrets.DATABASE_URL }}" nestjs-template-app-1 npm run test:e2e
+      - name: Shutdown Docker Compose Services
+        run: docker compose down
