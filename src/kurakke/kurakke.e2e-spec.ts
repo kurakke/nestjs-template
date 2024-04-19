@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
-import { initialize, defineKurakkeFactory } from '../../fabbrica';
+import { initialize, defineKurakkeFactory } from '../../prisma/fabbrica';
 import { PrismaService } from '../prisma/prisma.service';
 import { AppModule } from '../app.module';
 import { Kurakke, PrismaClient } from '@prisma/client';

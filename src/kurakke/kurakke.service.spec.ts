@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { KurakkeService } from './kurakke.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { initialize, defineKurakkeFactory } from '../../fabbrica';
+import { initialize, defineKurakkeFactory } from '../../prisma/fabbrica';
 import { ConfigModule } from '@nestjs/config';
 import { UpdateKurakkeDto } from './dto/update-kurakke.dto';
 

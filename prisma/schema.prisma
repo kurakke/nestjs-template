@@ -10,7 +10,7 @@ generator client {
 
 generator fabbrica {
   provider = "prisma-fabbrica"
-  output   = "../fabbrica"
+  output   = "./fabbrica"
 }
 
 datasource db {
