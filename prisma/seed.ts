@@ -3,7 +3,7 @@ import {
   initialize,
   defineKurakkeFactory,
   defineKurakkeChildFactory,
-} from '../fabbrica';
+} from './fabbrica';
 
 const prisma = new PrismaClient();
 initialize({ prisma });
